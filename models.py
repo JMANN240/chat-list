@@ -1,25 +1,21 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from database import Base
 
-
 class Task(Base):
 	__tablename__ = "tasks"
 
-	id = Column(Integer, primary_key=True, index=True)
+	uuid = Column(String, primary_key=True, index=True)
 	description = Column(String, index=True)
 	complete = Column(Boolean, default=False)
-	owner_id = Column(Integer, ForeignKey("users.id"))
+	task_list_uuid = Column(String, ForeignKey("task_lists.uuid"))
 
-	user = relationship("User", back_populates="tasks")
+	task_list = relationship("TaskList", back_populates="tasks")
 
+class TaskList(Base):
+	__tablename__ = "task_lists"
 
-class User(Base):
-	__tablename__ = "users"
+	uuid = Column(String, primary_key=True, index=True)
 
-	id = Column(Integer, primary_key=True, index=True)
-	username = Column(String, unique=True, index=True)
-	passhash = Column(String)
-
-	tasks = relationship("Task", back_populates="user")
+	tasks = relationship("Task", back_populates="task_list")

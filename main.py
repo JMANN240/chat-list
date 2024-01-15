@@ -1,6 +1,7 @@
+from typing import Annotated
+
 from fastapi import Depends, FastAPI, HTTPException, Header
 from sqlalchemy.orm import Session
-from typing import Annotated
 
 import crud, models, schemas
 from database import SessionLocal, engine
@@ -16,7 +17,15 @@ def get_db():
 	finally:
 		db.close()
 
-@app.get("/tasks", response_model=list[schemas.Task])
-async def read_tasks(db: Session = Depends(get_db), authorization: Annotated[str | None, Header()] = None):
-	print(authorization)
-	return crud.get_user_tasks(db, 0)
+@app.get("/task_list", response_model=schemas.TaskList)
+async def get_task_list(uuid: str, db: Session = Depends(get_db)):
+	return crud.get_task_list(db, uuid)
+
+@app.post("/task_list", response_model=schemas.TaskList)
+async def create_task_list(db: Session = Depends(get_db)):
+	return crud.create_task_list(db)
+
+@app.post("/task", response_model=schemas.Task)
+async def create_task(task_create: schemas.TaskCreate, db: Session = Depends(get_db)):
+	print(task_create)
+	return crud.create_task(db, task_create)

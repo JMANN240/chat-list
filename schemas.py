@@ -1,32 +1,23 @@
 from pydantic import BaseModel
 
-
 class TaskBase(BaseModel):
+	task_list_uuid: str
 	description: str
-
 
 class TaskCreate(TaskBase):
 	pass
 
-
 class Task(TaskBase):
-	id: int
-	owner_id: int
+	uuid: str
+	complete: bool
 
 	class Config:
 		from_attributes = True
 
+class TaskListBase(BaseModel):
+	uuid: str
 
-class UserBase(BaseModel):
-	username: str
-
-
-class UserCreate(UserBase):
-	password: str
-
-
-class User(UserBase):
-	id: int
+class TaskList(TaskListBase):
 	tasks: list[Task] = []
 
 	class Config:
