@@ -35,7 +35,7 @@ class TaskUpdate(TaskCreate):
 class Task(TaskBase):
 	description: str
 	complete: bool
-	child_tasks: list['Task']
+	child_tasks: Optional[list['Task']]
 
 	class Config:
 		from_attributes = True
