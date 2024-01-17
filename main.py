@@ -14,7 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 JWT_SECRET_KEY = 'secret'
 JWT_ALGORITHM = 'HS256'
 
-app = FastAPI()
+app = FastAPI(servers=[{'url': 'https://chat-listkentsoftwarecollective.com'}])
 
 def get_db():
 	db = SessionLocal()
