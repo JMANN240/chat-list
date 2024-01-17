@@ -26,7 +26,7 @@ class TaskDelete(TaskBase):
 	pass
 
 class TaskCreate(BaseModel):
-	parent_task_uuid: Optional[str]
+	parent_task_uuid: Optional[str] = None
 	description: str
 
 class TaskUpdate(TaskCreate):
@@ -35,7 +35,7 @@ class TaskUpdate(TaskCreate):
 class ParentTask(TaskBase):
 	description: str
 	complete: bool
-	parent_task: Optional['ParentTask']
+	parent_task: Optional['ParentTask'] = None
 
 class Task(ParentTask):
 	child_tasks: list['Task']
