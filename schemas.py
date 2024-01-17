@@ -32,10 +32,13 @@ class TaskCreate(BaseModel):
 class TaskUpdate(TaskCreate):
 	uuid: str
 
-class Task(TaskBase):
+class ParentTask(TaskBase):
 	description: str
 	complete: bool
-	child_tasks: Optional[list['Task']]
+	parent_task: Optional['ParentTask']
+
+class Task(ParentTask):
+	child_tasks: list['Task']
 
 	class Config:
 		from_attributes = True
